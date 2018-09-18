@@ -2,6 +2,7 @@
 import time
 import sys
 import pandas
+import argparse
 from datetime import datetime
 
 def create_table(columns):
@@ -30,15 +31,18 @@ def insert_record(_df, parsed_row):
 def main():
     #argparse
     parser = argparse.ArgumentParser(description = 'Code for parsing MR preproc logs')
+    parser.add_argument('--user', required=True, help='user running the piepline')    
+    parser.add_argument('--study', required=True, help='name of the study / project')    
+    parser.add_argument('--data_dir', required=True, help='local dataset path')   
     parser.add_argument('--logfile', required=True, help='path for reading logfile')    
-    parser.add_argument('--df_save_path', required=True, help='path for saving dataframe')    
+    parser.add_argument('--save_path', required=True, help='path for saving parsed-log dataframe')    
 
     args = parser.parse_args()
 
     # Req params    
     LOG_FILE_A = args.logfile
-    df_save_path = args.df_save_path
-    log_tags = ['subject_idx','log_created','preproc_task','status']    
+    df_save_path = args.save_path
+    log_tags = ['study','user','subject_idx','log_created','preproc_task','command','status','comments']    
 
 
     # Create table to store parsed values 

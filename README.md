@@ -14,6 +14,7 @@ dashboard to monitor MR image preproc pipelines
 - progress reports 
     - plots
     - suggestions on errors 
+    - sync with master table of preproc history (study / dataset / user info) 
 
 **prerequisites** 
 - python 3+ 
