@@ -6,7 +6,7 @@ import os
 # Parse subject -> timepoint info
 def parse_pickle(pkl, output_dirs):
     # the task columns represent the current state of the task (na/expected/completed/failed)
-    info_cols = ['subject_idx','subject_dir','tp_idx','denoise','mask_N3','advanced_N4','mri3T','model_name',
+    info_cols = ['subject_idx','subject_dir','tp_idx','mri3T','model_name',
                 'beast_dir','run_skull_registration','beastresolution','number_of_timepoints','pipeline_version',
                 'donl','dolngcls','nuc','den','lob','nsstx','qc_dir']
     
@@ -17,9 +17,6 @@ def parse_pickle(pkl, output_dirs):
         subject_df.loc[t,'subject_idx'] = pkl.id
         subject_df.loc[t,'subject_dir'] = pkl.patientdir 
         subject_df.loc[t,'tp_idx'] = tp
-        subject_df.loc[t,'denoise'] = pkl.denoise
-        subject_df.loc[t,'mask_N3'] = pkl.mask_n3
-        subject_df.loc[t,'advanced_N4'] = pkl.n4
         subject_df.loc[t,'donl'] = pkl.donl
         subject_df.loc[t,'dolngcls'] = pkl.dolngcls
         subject_df.loc[t,'mri3T'] = pkl.mri3T
@@ -44,7 +41,6 @@ def parse_pickle(pkl, output_dirs):
         subject_df.loc[t,'vbm'] = True
         subject_df.loc[t,'cls'] = True
         subject_df.loc[t,'lob'] = True
-        subject_df.loc[t,'add'] = True
         subject_df.loc[t,'vol'] = True
         subject_df.loc[t,'lng'] = True
         
