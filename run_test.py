@@ -70,7 +70,7 @@ def main():
         
     print('')
     print('Lenth of df_preproc: {}'.format(len(df_preproc)))
-    print('number of subjects: {}'.format(set(df_preproc['subject_idx'].values)))
+    print('number of subjects: {}'.format(len(set(df_preproc['subject_idx'].values))))
     print('saving summary csv at {}'.format(save_path))
     df_preproc.to_csv(save_path)
     
