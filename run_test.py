@@ -28,13 +28,19 @@ def main():
     #subject_dir = data_dir + '052_S_4807/' #for local tests 
 
     # Expected output directories per timepoint    
-    output_dirs = ['clp','clp2','stx','stx2','vbm','cls','add','vol','lng']
+    # First level output subdirs
+    output_dirs = ['clp','clp2','stx','stx2','vbm','cls','vol','lng'] # In each timepoint
+
+    # List of files expected in each subdir
     task_file_names_dict = {}
-    task_file_names_dict['clp'] = ['clp','den','nuc']
-    task_file_names_dict['clp2'] = ['clp2']
-    task_file_names_dict['cls'] = ['csl','lob']
-    task_file_names_dict['stx'] = ['stx','nsstx']
-    task_file_names_dict['stx2'] = ['stx2']
+    task_file_names_dict['clp'] = ['clp','den','nuc'] #_t1
+    task_file_names_dict['clp2'] = ['clp2'] #_t1
+    task_file_names_dict['cls'] = ['cls','lob'] 
+    task_file_names_dict['stx'] = ['stx','nsstx'] #_t1
+    task_file_names_dict['stx2'] = ['stx2'] #_t1
+    task_file_names_dict['vol'] = ['vol'] # text file
+    task_file_names_dict['vbm'] = ['vbm_imp_csf','vbm_imp_gm','vbm_imp_wm']
+    task_file_names_dict['lng'] = ['lng'] #_t1
     
     # iterate thru all subjects 
     df_preproc = pd.DataFrame()

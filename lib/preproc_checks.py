@@ -89,14 +89,22 @@ def check_output_files(subject_df,task_file_names_dict,subject_dir):
     for tp in subject_df['tp_idx'].values:    
         if os.path.isdir(subject_dir+tp):
             for out_dir in task_file_names_dict.keys():
-                expected_files = task_file_names_dict[out_dir]
-                for f in expected_files:
-                    file_name = '{}_{}_{}_t1.mnc'.format(f,subject_idx,tp) 
-                    if os.path.isfile(subject_dir+tp+'/'+out_dir+'/'+file_name):
-                        subject_df.loc[subject_df['tp_idx']==tp,out_dir] = 'file_exists'
-                    else:
-                        subject_df.loc[subject_df['tp_idx']==tp,out_dir] = 'file_missing'
-                        missing_file.append(tp + '/' + out_dir + '/' + file_name) 
+            	if os.path.isdir(subject_dir+tp+'/'+out_dir):
+	                expected_files = task_file_names_dict[out_dir]
+	                for f in expected_files:
+	                    if out_dir in ['vbm','cls']:
+	                        file_name = '{}_{}_{}.mnc'.format(f,subject_idx,tp)	
+	                    elif out_dir in ['vol']:
+	                    	file_name = '{}_{}_{}.txt'.format(f,subject_idx,tp)
+	                    else:
+	                        file_name = '{}_{}_{}_t1.mnc'.format(f,subject_idx,tp)
+
+	                    if os.path.isfile(subject_dir+tp+'/'+out_dir+'/'+file_name):
+	                        subject_df.loc[subject_df['tp_idx']==tp,out_dir] = 'file_exists'
+	                    else:
+	                        subject_df.loc[subject_df['tp_idx']==tp,out_dir] = 'file_missing'
+	                        missing_file.append(tp + '/' + out_dir + '/' + file_name) 
+
     return subject_df, missing_file
 
 
