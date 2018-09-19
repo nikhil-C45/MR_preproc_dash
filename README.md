@@ -4,9 +4,12 @@ Dashboard to monitor MR image preproc pipeline status
 **Basic workflow**
 - run preproc status script anytime after preproc job has been submitted 
 - status script
-    - input: path to preproc dir containing all the subject subdirectories, save_path to dump summary csv
-    - optional input: subject metadata, demographic info etc. 
-- checks preproc output directory tree for status "exists" or "missing". Note: this is a squential status overwritting process; i.e. file missing implies that the subject, timepoint and output directories exisit but file is missing. 
+    - input:
+        - path to preproc dir containing all the subject subdirectories
+        - save_path to dump summary csv
+        - optional: subject metadata, demographic info etc. (in progress) 
+    - output: status summary as a csv (or color coded dataframe in notebook) 
+- checks preproc output directory tree for status "exists" or "missing". Note: this is a squential status overwritting process; i.e. file missing implies that the subject, timepoint and output directories exists but a particular file is missing. 
     - timepoint dirs (per subject)
     - MR output dirs (per timepoint)
     - MR mnc files (per output dir) 
