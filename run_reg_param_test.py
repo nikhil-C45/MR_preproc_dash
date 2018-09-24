@@ -49,7 +49,7 @@ def main():
             print('missing timepoints (# {}): \n{}'.format(len(missing_tp),missing_tp))
             print('')
             print('missing dirs (# {}): \n{}'.format(len(missing_dir), missing_dir)) 
-            x`print('')
+            print('')
             print('missing files(# {}): \n{}'.format(len(missing_file),missing_file))
             
             df_preproc = df_preproc.append(df)

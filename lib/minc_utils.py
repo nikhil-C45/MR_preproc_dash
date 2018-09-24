@@ -8,7 +8,7 @@ import subprocess
 def get_reg_diff(df1,df2):
     return (df1-df2).abs()
 
-def get_reg_parameters(data_dir, script_dir, subject_idx, timepoints, stx):
+def get_subject_reg_parameters(data_dir, script_dir, subject_idx, timepoints, stx):
     reg_param_list = []
     reg_param_flat = pd.DataFrame()
     
@@ -42,7 +42,8 @@ def get_reg_params(script_dir,xfm):
     origin_check = False
     
     try: 
-        reg_param_str = str(subprocess.check_output(minc_reg_param_cmd, shell=True),'utf-8')
+        #reg_param_str = str(subprocess.check_output(minc_reg_param_cmd, shell=True),'utf-8')
+        reg_param_str = str(subprocess.check_output(minc_reg_param_cmd, shell=True))
         #print(reg_param_str)
         reg_param_split = str.split(reg_param_str,' ')        
 
@@ -65,7 +66,7 @@ def get_reg_params(script_dir,xfm):
                 print('Origin is not at [0,0,0]. Check input image space.')
         else: 
             print('minc command output string doesnot match expected output from xfm2param')
-    except:
-        print('Could not run minc command. Check minc script / command: \n{}\n'.format(minc_reg_param_cmd))
+    except Exception as e: print(e)
+        #print('Could not run minc command. Check minc script / command: \n{}\n'.format(minc_reg_param_cmd))
 
     return reg_df

@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import sys
 import os
+from minc_utils import *
 
 # Parse subject -> timepoint info
 def parse_pickle(pkl, output_dirs):
@@ -78,7 +79,11 @@ def check_output_dirs(subject_df,output_dirs,subject_dir):
 
 # Check output files creates at each stage of the pipeline (catch processing errors)
 def check_output_files(subject_df,task_file_names_dict,subject_dir):
+    script_dir = './scripts/'
     missing_file = []
+    reg_param_list_tp = []
+    reg_param_flat_tp = pd.DataFrame()
+    
     #subject_dir = subject_df['subject_dir'].values[0] # on BIC system
     #subject_dir = data_dir + '052_S_4807/' #for local tests 
     subject_idx = subject_df['subject_idx'].values[0]
@@ -97,11 +102,26 @@ def check_output_files(subject_df,task_file_names_dict,subject_dir):
 
 	                    if os.path.isfile(subject_dir+tp+'/'+out_dir+'/'+file_name):
 	                        subject_df.loc[subject_df['tp_idx']==tp,out_dir] = 'file_exists'
+                         
+                             ### Check reg params ###
+                            if f in ['stx','stx2']: 
+                                xfm = '{}/{}/{}/{}_{}_{}_t1.xfm'.format(subject_dir,tp,out_dir,out_dir,subject_idx,tp)                               
+                                reg_param = get_reg_params(script_dir, xfm).apply(pd.to_numeric)
+                                v = reg_param.unstack().to_frame().sort_index(level=1).T
+                                v.columns = v.columns.map('_'.join)
+                        
+                                v['subject_idx'] = subject_idx
+                                v['tp'] = tp
+                                v['stx'] = f
+                                reg_param_flat_tp = reg_param_flat_tp.append(v)
+                                reg_param_list_tp.append(reg_param)                                
+                             ### Check reg params ###
+                             
 	                    else:
 	                        subject_df.loc[subject_df['tp_idx']==tp,out_dir] = 'file_missing'
 	                        missing_file.append(tp + '/' + out_dir + '/' + file_name) 
 
-    return subject_df, missing_file
+    return subject_df, missing_file, reg_param_flat_tp, reg_param_list_tp
 
 
 # Styling for visualization 

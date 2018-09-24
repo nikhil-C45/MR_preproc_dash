@@ -15,7 +15,7 @@ def main():
     #argparse
     parser = argparse.ArgumentParser(description = 'Code for preproc checks on dir-tree and output files')
     parser.add_argument('--data_dir', required=True, help='local dataset path')
-    parser.add_argument('--save_path', required=True, help='path for summary csv')
+    parser.add_argument('--save_path', required=True, help='path for summary csv/dataframe')
 
     args = parser.parse_args()
 
@@ -44,7 +44,8 @@ def main():
     
     # iterate thru all subjects 
     df_preproc = pd.DataFrame()
-    
+    reg_param_list_subject = []
+    reg_param_flat_subject = pd.DataFrame()
     for subject_name in subject_names:
         if not pattern.match(subject_name):
             print('\ndirectory name {} does not match subject naming convention'.format(subject_name))
@@ -55,8 +56,9 @@ def main():
             df = parse_pickle(pipeline_data_pickle,output_dirs)
             
             df, missing_tp, missing_dir = check_output_dirs(df,output_dirs,subject_dir)
-            df, missing_file = check_output_files(df,task_file_names_dict,subject_dir)
-            
+            df, missing_file, reg_param_flat_tp, reg_param_list_tp = check_output_files(df,task_file_names_dict,subject_dir)
+            reg_param_flat_subject = reg_param_flat_subject.append(reg_param_flat_tp)
+            reg_param_list_subject = reg_param_list_subject + reg_param_list_tp
             print('')
             print('---------------------------------------------------------------')
             print('subject: {}'.format(df['subject_idx'].values[0]))
@@ -72,7 +74,13 @@ def main():
     print('Lenth of df_preproc: {}'.format(len(df_preproc)))
     print('number of subjects: {}'.format(len(set(df_preproc['subject_idx'].values))))
     print('saving summary csv at {}'.format(save_path))
-    df_preproc.to_csv(save_path)
+    print('')    
+    print(pd.concat(reg_param_list_subject).groupby(level=0).mean())
+    
+    df_preproc.to_csv(save_path + '.csv')
+    reg_param_flat_subject.to_pickle(save_path + '.pkl')
+
+
     
 if __name__ == '__main__':
     rc = main()
