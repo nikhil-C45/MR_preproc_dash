@@ -27,20 +27,6 @@ def main():
     subject_names = next(os.walk(data_dir))[1]
     pattern = re.compile("([0-9]*_S_[0-9]*)")
     
-    # Expected output directories per timepoint    
-    # First level output subdirs
-    output_dirs = ['clp','clp2','stx','stx2','vbm','cls','vol','lng'] # In each timepoint
-
-    # List of files expected in each subdir
-    task_file_names_dict = {}
-    task_file_names_dict['clp'] = ['clp','den','nuc'] #_t1
-    task_file_names_dict['clp2'] = ['clp2'] #_t1
-    task_file_names_dict['cls'] = ['cls','lob'] 
-    task_file_names_dict['stx'] = ['stx','nsstx'] #_t1
-    task_file_names_dict['stx2'] = ['stx2'] #_t1
-    task_file_names_dict['vol'] = ['vol'] # text file
-    task_file_names_dict['vbm'] = ['vbm_imp_csf','vbm_imp_gm','vbm_imp_wm']
-    task_file_names_dict['lng'] = ['lng'] #_t1
     
     # iterate thru all subjects 
     df_preproc = pd.DataFrame()
@@ -63,7 +49,7 @@ def main():
             print('missing timepoints (# {}): \n{}'.format(len(missing_tp),missing_tp))
             print('')
             print('missing dirs (# {}): \n{}'.format(len(missing_dir), missing_dir)) 
-            print('')
+            x`print('')
             print('missing files(# {}): \n{}'.format(len(missing_file),missing_file))
             
             df_preproc = df_preproc.append(df)
