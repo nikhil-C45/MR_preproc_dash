@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import sys
 import os
+from minc_wrap import *
 
 # Parse subject -> timepoint info
 def parse_pickle(pkl, output_dirs):
@@ -82,7 +83,7 @@ def check_output_dirs(subject_df,output_dirs,subject_dir):
     return subject_df, missing_tp, missing_dir
 
 
-def check_output_files(subject_df,task_file_names_dict,subject_dir):
+def check_output_files(local_env,subject_df,task_file_names_dict,subject_dir):
     """ Check output files creates at each stage of the pipeline.
     Catch processing errors. 
     """
@@ -114,7 +115,7 @@ def check_output_files(subject_df,task_file_names_dict,subject_dir):
                              ### Check reg params ###
                              if f in ['stx','stx2']: 
                                  xfm = '{}/{}/{}/{}_{}_{}_t1.xfm'.format(subject_dir,tp,f,f,subject_idx,tp)                               
-                                 reg_param = get_reg_params(script_dir, xfm).apply(pd.to_numeric)
+                                 reg_param = get_reg_params(local_env, script_dir, xfm).apply(pd.to_numeric)
                                  v = reg_param.unstack().to_frame().sort_index(level=1).T
                                  v.columns = v.columns.map('_'.join)
                         

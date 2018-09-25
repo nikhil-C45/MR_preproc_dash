@@ -27,7 +27,7 @@ def get_reg_params(minc_env,script_dir,xfm):
     origin_check = False
     
     try: 
-        #reg_param_str = str(subprocess.check_output(minc_reg_param_cmd, shell=True),'utf-8')
+        #reg_param_str = str(subprocess.check_output(minc_reg_param_cmd, shell=True),'utf-8') #python3
         reg_param_str = str(subprocess.check_output(minc_reg_param_cmd, shell=True).decode("utf-8"))
         #print(reg_param_str)
         reg_param_split = str.split(reg_param_str,' ')        

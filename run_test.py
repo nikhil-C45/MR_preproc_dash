@@ -4,6 +4,7 @@ import os
 import argparse
 import re
 from lib.preproc_checks import *
+from lib.minc_wrap import *
 
 preproc_pipeline_dir = '/data/ipl/scratch03/nikhil/MR_preproc_dash/code/nist_mni_pipelines/'
 if preproc_pipeline_dir not in sys.path:
@@ -61,7 +62,7 @@ def main():
             df = parse_pickle(pipeline_data_pickle,output_dirs)
             
             df, missing_tp, missing_dir = check_output_dirs(df,output_dirs,subject_dir)
-            df, missing_file, reg_param_flat_tp, reg_param_list_tp = check_output_files(df,task_file_names_dict,subject_dir)
+            df, missing_file, reg_param_flat_tp, reg_param_list_tp = check_output_files(local_env,df,task_file_names_dict,subject_dir)
             reg_param_flat_subject = reg_param_flat_subject.append(reg_param_flat_tp)
             reg_param_list_subject = reg_param_list_subject + reg_param_list_tp
             print('')
@@ -78,14 +79,13 @@ def main():
     print('')
     print('Lenth of df_preproc: {}'.format(len(df_preproc)))
     print('number of subjects: {}'.format(len(set(df_preproc['subject_idx'].values))))
-    print('saving summary csv at {}'.format(save_path))
+    print('saving summary csv at {}'.format(save_path + '.csv'))
+    print('saving reg_param dataframe at {}'.format(save_path + '.pkl'))
     print('')    
-    print(pd.concat(reg_param_list_subject).groupby(level=0).mean())
     
+    # Save ouput
     df_preproc.to_csv(save_path + '.csv')
     reg_param_flat_subject.to_pickle(save_path + '.pkl')
-
-
     
 if __name__ == '__main__':
     rc = main()
