@@ -102,27 +102,28 @@ def check_output_files(subject_df,task_file_names_dict,subject_dir):
 	                expected_files = task_file_names_dict[out_dir]
 	                for f in expected_files:
 	                    if out_dir in ['vbm','cls']:
-	                        file_name = '{}_{}_{}.mnc'.format(f,subject_idx,tp)	
+                             file_name = '{}_{}_{}.mnc'.format(f,subject_idx,tp)	
 	                    elif out_dir in ['vol']:
-	                    	file_name = '{}_{}_{}.txt'.format(f,subject_idx,tp)
+                             file_name = '{}_{}_{}.txt'.format(f,subject_idx,tp)
 	                    else:
-	                        file_name = '{}_{}_{}_t1.mnc'.format(f,subject_idx,tp)
+                             file_name = '{}_{}_{}_t1.mnc'.format(f,subject_idx,tp)
 
 	                    if os.path.isfile(subject_dir+tp+'/'+out_dir+'/'+file_name):
-	                        subject_df.loc[subject_df['tp_idx']==tp,out_dir] = 'file_exists'
+                             subject_df.loc[subject_df['tp_idx']==tp,out_dir] = 'file_exists'
+                             
                          
                              ### Check reg params ###
-                            if f in ['stx','stx2']: 
-                                xfm = '{}/{}/{}/{}_{}_{}_t1.xfm'.format(subject_dir,tp,f,f,subject_idx,tp)                               
-                                reg_param = get_reg_params(script_dir, xfm).apply(pd.to_numeric)
-                                v = reg_param.unstack().to_frame().sort_index(level=1).T
-                                v.columns = v.columns.map('_'.join)
+                             if f in ['stx','stx2']: 
+                                 xfm = '{}/{}/{}/{}_{}_{}_t1.xfm'.format(subject_dir,tp,f,f,subject_idx,tp)                               
+                                 reg_param = get_reg_params(script_dir, xfm).apply(pd.to_numeric)
+                                 v = reg_param.unstack().to_frame().sort_index(level=1).T
+                                 v.columns = v.columns.map('_'.join)
                         
-                                v['subject_idx'] = subject_idx
-                                v['tp'] = tp
-                                v['stx'] = f
-                                reg_param_flat_tp = reg_param_flat_tp.append(v)
-                                reg_param_list_tp.append(reg_param)                                
+                                 v['subject_idx'] = subject_idx
+                                 v['tp'] = tp
+                                 v['stx'] = f
+                                 reg_param_flat_tp = reg_param_flat_tp.append(v)
+                                 reg_param_list_tp.append(reg_param)                                
                              ### Check reg params ###
                              
 	                    else:
