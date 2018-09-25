@@ -105,7 +105,7 @@ def check_output_files(subject_df,task_file_names_dict,subject_dir):
                          
                              ### Check reg params ###
                             if f in ['stx','stx2']: 
-                                xfm = '{}/{}/{}/{}_{}_{}_t1.xfm'.format(subject_dir,tp,out_dir,out_dir,subject_idx,tp)                               
+                                xfm = '{}/{}/{}/{}_{}_{}_t1.xfm'.format(subject_dir,tp,f,f,subject_idx,tp)                               
                                 reg_param = get_reg_params(script_dir, xfm).apply(pd.to_numeric)
                                 v = reg_param.unstack().to_frame().sort_index(level=1).T
                                 v.columns = v.columns.map('_'.join)
