@@ -2,10 +2,13 @@ import pandas as pd
 import numpy as np
 import sys
 import os
-from minc_utils import *
+from minc_wrap import *
 
 # Parse subject -> timepoint info
 def parse_pickle(pkl, output_dirs):
+    """ function to parse the pickle generated during longitudinal preproc pipeline. 
+    The pickle contains important information regarding the subject.
+    """
     # the task columns represent the current state of the task (na/expected/completed/failed)
     info_cols = ['subject_idx','subject_dir','tp_idx','mri3T','model_name',
                 'beast_dir','run_skull_registration','beastresolution','number_of_timepoints','pipeline_version',
@@ -50,8 +53,10 @@ def parse_pickle(pkl, output_dirs):
     return subject_df
     
 
-# Check diretory tree created at the beginning of the pipeline (catch permission failures)
 def check_output_dirs(subject_df,output_dirs,subject_dir):
+    """Check diretory tree created at the beginning of the pipeline. 
+    Catch permission failures. 
+    """
     #subject_dir = subject_df['subject_dir'].values[0] # on BIC system
     #subject_dir = data_dir + '052_S_4807/' #for local tests 
     
@@ -77,8 +82,11 @@ def check_output_dirs(subject_df,output_dirs,subject_dir):
     
     return subject_df, missing_tp, missing_dir
 
-# Check output files creates at each stage of the pipeline (catch processing errors)
+
 def check_output_files(subject_df,task_file_names_dict,subject_dir):
+    """ Check output files creates at each stage of the pipeline.
+    Catch processing errors. 
+    """
     script_dir = './scripts/'
     missing_file = []
     reg_param_list_tp = []
@@ -126,9 +134,9 @@ def check_output_files(subject_df,task_file_names_dict,subject_dir):
 
 # Styling for visualization 
 def highlight_missing_tp(s):
-    '''
+    """
     highlight the missing timepoints.
-    '''
+    """
     is_missing = s == 'timepoint_missing'
     return ['background-color: darkorange' if v else '' for v in is_missing]
 
