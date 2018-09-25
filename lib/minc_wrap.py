@@ -5,10 +5,10 @@ import os
 import re
 import subprocess
 
-def get_xcorr_vol(script_dir,vol1,vol2):
-    """ wrapper for minc command: "xcorr_vol $1 $2"
+def get_xcorr_vol(minc_env,script_dir,vol1,vol2):
+    """ wrapper for minc command: xcorr_vol $1 $2
     """
-    minc_xcorr_cmd = script_dir + 'run_xcorr_cmd.sh' + ' ' + vol1 + ' ' + vol2
+    minc_xcorr_cmd = script_dir + 'run_xcorr_cmd.sh' + ' ' + minc_env + ' ' + vol1 + ' ' + vol2
     xcorr = 0
     try:
         xcorr = float(subprocess.check_output(minc_xcorr_cmd, shell=True))
@@ -18,17 +18,17 @@ def get_xcorr_vol(script_dir,vol1,vol2):
     return xcorr
 
 
-def get_reg_params(script_dir,xfm):
+def get_reg_params(minc_env,script_dir,xfm):
     """ wrapper for minc commoands 1) xfminvert $1 $tmpfile -clobber 2) xfm2param $tmpfile 
     """
-    minc_reg_param_cmd = script_dir + 'run_reg_param_cmd.sh' + ' ' + xfm
+    minc_reg_param_cmd = script_dir + 'run_reg_param_cmd.sh' + ' ' + minc_env + ' ' + xfm
     reg_df = pd.DataFrame(index=['center','translation','rotation','scale','shear'],columns=['x','y','z'])
     string_check = False
     origin_check = False
     
     try: 
         #reg_param_str = str(subprocess.check_output(minc_reg_param_cmd, shell=True),'utf-8')
-        reg_param_str = str(subprocess.check_output(minc_reg_param_cmd, shell=True))
+        reg_param_str = str(subprocess.check_output(minc_reg_param_cmd, shell=True).decode("utf-8"))
         #print(reg_param_str)
         reg_param_split = str.split(reg_param_str,' ')        
 
@@ -59,15 +59,15 @@ def get_reg_params(script_dir,xfm):
 def get_reg_diff(df1,df2):
     return (df1-df2).abs()
 
-def get_subject_reg_parameters(data_dir, script_dir, subject_idx, timepoints, stx):
-    """ higher function to get reg_params for all timepoints for a given subject. 
+def get_subject_reg_parameters(data_dir, minc_env, script_dir, subject_idx, timepoints, stx):
+    """ a higher function to get reg_params for all timepoints for a given subject. 
     """
     reg_param_list = []
     reg_param_flat = pd.DataFrame()
     
     for t,tp in enumerate(timepoints):
         xfm = data_dir + '{}/{}/{}/{}_{}_{}_t1.xfm'.format(subject_idx,tp,stx,stx,subject_idx,tp)
-        reg_param = get_reg_params(script_dir, xfm).apply(pd.to_numeric)
+        reg_param = get_reg_params(minc_env, script_dir, xfm).apply(pd.to_numeric)
         v = reg_param.unstack().to_frame().sort_index(level=1).T
         v.columns = v.columns.map('_'.join)
 

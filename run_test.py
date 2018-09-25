@@ -9,6 +9,11 @@ preproc_pipeline_dir = '/data/ipl/scratch03/nikhil/MR_preproc_dash/code/nist_mni
 if preproc_pipeline_dir not in sys.path:
     sys.path.append(preproc_pipeline_dir)
 
+
+#source /opt/minc/1.9.16/minc-toolkit-config.sh #Mac laptop
+#source /ipl/quarantine/experimental/2013-02-15/init.sh #BIC systems
+local_env = '/ipl/quarantine/experimental/2013-02-15/init.sh' 
+
 def main():
     # Data paths
     
