@@ -16,8 +16,6 @@ if preproc_pipeline_dir not in sys.path:
 local_env = '/ipl/quarantine/experimental/2013-02-15/init.sh' 
 
 def main():
-    # Data paths
-    
     #argparse
     parser = argparse.ArgumentParser(description = 'Code for preproc checks on dir-tree and output files')
     parser.add_argument('--data_dir', required=True, help='local dataset path')
@@ -36,6 +34,11 @@ def main():
     # Expected output directories per timepoint    
     # First level output subdirs
     output_dirs = ['clp','clp2','stx','stx2','vbm','cls','vol','lng'] # In each timepoint
+
+    # Registration dirs and parameters (for outlier detection)
+    reg_dirs = ['stx','stx2']
+    reg_cols = ['x_center', 'y_center', 'z_center', 'x_translation', 'y_translation', 'z_translation', 'x_rotation', 'y_rotation', 'z_rotation',
+    'x_scale', 'y_scale', 'z_scale', 'x_shear', 'y_shear', 'z_shear']
 
     # List of files expected in each subdir
     task_file_names_dict = {}
@@ -83,9 +86,13 @@ def main():
     print('saving reg_param dataframe at {}'.format(save_path + '.pkl'))
     print('')    
     
+    # Find outliers
+    od_df = reg_param_flat_subject.copy()
+    od_df = find_reg_outliers(od_df,reg_dirs,reg_cols)
+
     # Save ouput
     df_preproc.to_csv(save_path + '.csv')
-    reg_param_flat_subject.to_pickle(save_path + '.pkl')
+    od_df.to_pickle(save_path + '.pkl')
     
 if __name__ == '__main__':
     rc = main()
