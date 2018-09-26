@@ -1,8 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# @author Nikhil Bhagawt
+# @date 20 Sept 2018
+
 import pandas as pd
 import numpy as np
 import sys
 import os
-from minc_wrap import *
+#from minc_wrap import *
 
 # Parse subject -> timepoint info
 def parse_pickle(pkl, output_dirs):

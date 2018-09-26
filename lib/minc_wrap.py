@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# @author Nikhil Bhagawt
+# @date 20 Sept 2018
+
 import pandas as pd
 import numpy as np
 import sys
