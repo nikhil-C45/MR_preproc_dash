@@ -5,6 +5,7 @@ import argparse
 import re
 from lib.preproc_checks import *
 from lib.minc_wrap import *
+from lib.outlier_checks import *
 
 preproc_pipeline_dir = '/data/ipl/scratch03/nikhil/MR_preproc_dash/code/nist_mni_pipelines/'
 if preproc_pipeline_dir not in sys.path:
