@@ -128,6 +128,7 @@ def check_output_files(local_env,subject_df,task_file_names_dict,subject_dir):
                                  v['subject_idx'] = subject_idx
                                  v['tp'] = tp
                                  v['stx'] = f
+                                 v['file_path'] = subject_dir+tp+'/'+out_dir+'/'+file_name
                                  reg_param_flat_tp = reg_param_flat_tp.append(v)
                                  reg_param_list_tp.append(reg_param)                                
                              ### Check reg params ###
