@@ -21,6 +21,7 @@ if preproc_pipeline_dir not in sys.path:
 #source /opt/minc/1.9.16/minc-toolkit-config.sh #Mac laptop
 #source /ipl/quarantine/experimental/2013-02-15/init.sh #BIC systems
 local_env = '/ipl/quarantine/experimental/2013-02-15/init.sh' 
+script_dir = './scripts/'
 
 def main():
     #argparse
@@ -72,7 +73,7 @@ def main():
             df = parse_pickle(pipeline_data_pickle,output_dirs)
             
             df, missing_tp, missing_dir = check_output_dirs(df,output_dirs,subject_dir)
-            df, missing_file, reg_param_flat_tp, reg_param_list_tp = check_output_files(local_env,df,task_file_names_dict,subject_dir)
+            df, missing_file, reg_param_flat_tp, reg_param_list_tp = check_output_files(local_env,df,task_file_names_dict,subject_dir,script_dir)
             reg_param_flat_subject = reg_param_flat_subject.append(reg_param_flat_tp)
             reg_param_list_subject = reg_param_list_subject + reg_param_list_tp
             print('')

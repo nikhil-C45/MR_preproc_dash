@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # @author Nikhil Bhagawt
@@ -90,11 +89,10 @@ def check_output_dirs(subject_df,output_dirs,subject_dir):
     return subject_df, missing_tp, missing_dir
 
 
-def check_output_files(local_env,subject_df,task_file_names_dict,subject_dir):
+def check_output_files(local_env,subject_df,task_file_names_dict,subject_dir,script_dir):
     """ Check output files creates at each stage of the pipeline.
     Catch processing errors. 
     """
-    script_dir = './scripts/'
     missing_file = []
     reg_param_list_tp = []
     reg_param_flat_tp = pd.DataFrame()
