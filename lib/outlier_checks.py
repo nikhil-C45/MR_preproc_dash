@@ -1,3 +1,10 @@
+import pandas as pd
+import numpy as np
+import sys
+import os
+sys.path.append('../')
+from lib.minc_wrap import *
+
 def find_reg_outliers(df,outlier_dirs,cols):
     """finds intra-subject (timepoints) outliers 
     Note: Overwrites outlier_param column value with the latest detected outlier
